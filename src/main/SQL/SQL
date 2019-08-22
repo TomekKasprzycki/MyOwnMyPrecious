@@ -1,0 +1,63 @@
+CREATE DATABASE MyOwnMyPrecious
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE userFunctions (
+    id INT NOT NULL AUTO_INCREMENT,
+    role VARCHAR(30),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT,
+    login VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    firstName VARCHAR(20) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    role INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (role) REFERENCES userFunctions(id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE authors (
+    id INT NOT NULL AUTO_INCREMENT,
+    firstName VARCHAR(20) NOT NULL,
+    secondName VARCHAR(20),
+    lastName VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE publishers (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    nip INT(10) NOT NULL UNIQUE,
+    city VARCHAR(50) NOT NULL,
+    street VARCHAR(50) NOT NULL,
+    number VARCHAR(8) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE books (
+    id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    isbn VARCHAR(16) NOT NULL UNIQUE,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE bookAuthors (
+    bookID INT NOT NULL,
+    authorID INT NOT NULL,
+    PRIMARY KEY (bookID,authorID),
+    FOREIGN KEY (bookID) REFERENCES books(id) ON DELETE CASCADE,
+    FOREIGN KEY (authorID) REFERENCES authors(id) ON DELETE CASCADE
+);
+
+CREATE TABLE bookPublisher (
+    bookID INT NOT NULL,
+    publisherID INT NOT NULL,
+    PRIMARY KEY (bookID,publisherID),
+    FOREIGN KEY (bookID) REFERENCES books(id) ON DELETE CASCADE,
+    FOREIGN KEY (publisherID) REFERENCES publishers(id) ON DELETE CASCADE
+);
