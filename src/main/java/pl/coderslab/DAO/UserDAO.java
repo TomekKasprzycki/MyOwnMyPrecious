@@ -1,5 +1,6 @@
 package pl.coderslab.DAO;
 
+import org.mindrot.jbcrypt.BCrypt;
 import pl.coderslab.model.User;
 
 import java.sql.*;
@@ -74,6 +75,29 @@ public class UserDAO {
                 result.add(rs.getString(i));
 
             }
+        return result;
+    }
+
+    public int checkUser(String login, String password){
+        int result=0;
+
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(qryCheckUser);
+            preparedStatement.setString(1,login);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()){
+                if (BCrypt.checkpw(password,rs.getString(2))){
+                    result=rs.getInt(3);
+                }
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
         return result;
     }
 
