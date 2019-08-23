@@ -1,4 +1,4 @@
-package pl.coderslab.Servlets;
+package pl.coderslab.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +11,13 @@ import java.io.IOException;
 public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+
+        System.out.println(login + ", " + password);
+
+        getServletContext().getRequestDispatcher("/MyOwnMyPrecious/showAllBooks.jsp").forward(request,response);
+
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 }

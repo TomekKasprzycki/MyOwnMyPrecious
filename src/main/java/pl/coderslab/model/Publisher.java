@@ -1,4 +1,4 @@
-package pl.coderslab.Model;
+package pl.coderslab.model;
 
 public class Publisher {
 }
